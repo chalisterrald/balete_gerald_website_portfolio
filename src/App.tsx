@@ -116,7 +116,7 @@ const App: React.FC = () => {
 
   // Typewriter State
   const roles = React.useMemo(() => [
-    "Passionate Software Engineer", 
+    "Passionate Software Developer", 
     "Crafting clean, scalable applications", 
     "Turning complex problems into elegant solutions",
     "Continuous learner & tech enthusiast"
@@ -398,10 +398,8 @@ const App: React.FC = () => {
                     transition={{ duration: 1.0, ease: [0.25, 1, 0.3, 1] }} 
                     onMouseEnter={() => handleMouseEnterCard(project.carouselId)}
                     onMouseLeave={handleMouseLeaveCard}
-                    className="apple-card-elevated"
+                    className="apple-card-elevated project-card"
                     style={{ 
-                      width: '350px',
-                      height: '420px',
                       display: 'flex', 
                       flexDirection: 'column',
                       background: 'var(--bg-light)', 
@@ -484,12 +482,8 @@ const App: React.FC = () => {
                     exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
                     transition={{ duration: 0.4, ease: [0.25, 1, 0.3, 1] }} 
                     onMouseLeave={handleCloseModal}
-                    className="apple-card-elevated"
+                    className="apple-card-elevated project-modal"
                     style={{ 
-                      width: '850px',
-                      height: '480px',
-                      display: 'flex', 
-                      flexDirection: 'row',
                       background: 'white', 
                       overflow: 'hidden',
                       border: '1px solid var(--border-soft)',
@@ -500,9 +494,8 @@ const App: React.FC = () => {
                   >
                     {/* Image Region Expanded */}
                     <motion.div 
+                      className="project-modal-child"
                       style={{ 
-                        width: '50%',
-                        height: '100%',
                         position: 'relative', 
                         background: '#000',
                         overflow: 'hidden'
@@ -518,8 +511,8 @@ const App: React.FC = () => {
 
                     {/* Content Region Expanded */}
                     <motion.div 
+                      className="project-modal-child"
                       style={{ 
-                        width: '50%',
                         padding: '3rem',
                         display: 'flex', 
                         flexDirection: 'column', 
@@ -693,7 +686,7 @@ const App: React.FC = () => {
                       <Briefcase size={32} />
                     </motion.div>
                     <div>
-                      <h4 style={{ fontSize: '1.4rem', fontWeight: 600 }}>Software Developer Intern</h4>
+                      <h4 style={{ fontSize: '1.4rem', fontWeight: 600 }}>Software Developer (Intern)</h4>
                       <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', margin: '0.2rem 0 1rem 0' }}>Inspire Next Global Inc. Jan 26 to Present</p>
                       <p style={{ color: 'var(--text-main)', fontSize: '1.05rem', lineHeight: 1.5 }}>
                         Improving the Loopwork product’s user interface, focusing on its landing page and home page.
@@ -723,9 +716,8 @@ The goal is to create a more engaging, intuitive, and visually polished experien
                       <Briefcase size={32} />
                     </motion.div>
                     <div>
-                      <h4 style={{ fontSize: '1.4rem', fontWeight: 600 }}>Junior Sales Associate
-</h4>
-                      <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', margin: '0.2rem 0 1rem 0' }}>Inspire Next Global Inc. Jan 26 to Present</p>
+                      <h4 style={{ fontSize: '1.4rem', fontWeight: 600 }}>Junior Sales Associate (Part-time)</h4>
+                      <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', margin: '0.2rem 0 1rem 0' }}>Inspire Next Global Inc.</p>
                       <p style={{ color: 'var(--text-main)', fontSize: '1.05rem', lineHeight: 1.5 }}>
                         [Pending Input...] and generated sales leads by sending targeted email campaigns. Effectively communicated product value to encourage adoption and support overall sales growth.
                       </p>
@@ -877,7 +869,7 @@ The goal is to create a more engaging, intuitive, and visually polished experien
 
               {/* Inner Card Card Content */}
               <div
-                className="apple-card-elevated"
+                className="apple-card-elevated contact-layout"
                 style={{ 
                   position: 'relative',
                   zIndex: 1,
@@ -887,10 +879,6 @@ The goal is to create a more engaging, intuitive, and visually polished experien
                   borderRadius: '32px',
                   backdropFilter: 'blur(30px) saturate(150%)',
                   boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.9)',
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-                  gap: '4rem',
-                  alignItems: 'center'
                 }}
               >
                 {/* Left Side: Copy & Socials */}
