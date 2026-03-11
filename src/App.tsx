@@ -694,9 +694,40 @@ const App: React.FC = () => {
                     </motion.div>
                     <div>
                       <h4 style={{ fontSize: '1.4rem', fontWeight: 600 }}>Software Developer Intern</h4>
-                      <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', margin: '0.2rem 0 1rem 0' }}>Tech Solutions Inc. — 2024 to Present</p>
+                      <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', margin: '0.2rem 0 1rem 0' }}>Inspire Next Global Inc. Jan 26 to Present</p>
                       <p style={{ color: 'var(--text-main)', fontSize: '1.05rem', lineHeight: 1.5 }}>
-                        Led frontend typescript migration, developed scalable UI libraries, and optimized primary workflow dashboards for a 30% performance increase.
+                        Improving the Loopwork product’s user interface, focusing on its landing page and home page.
+The goal is to create a more engaging, intuitive, and visually polished experience for users.
+
+                      </p>
+                    </div>
+                  </motion.div>
+                  <motion.div 
+                    variants={slideInRight} 
+                    initial="hidden" 
+                    whileInView="visible" 
+                    viewport={{ once: true }} 
+                    whileHover={{ x: 10, scale: 1.01 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    style={{ 
+                      display: 'flex', 
+                      gap: '1.5rem', 
+                      background: 'white', 
+                      padding: '2rem', 
+                      borderRadius: '24px', 
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+                      border: '1px solid var(--border-soft)'
+                    }}
+                  >
+                    <motion.div whileHover={{ rotate: 15 }} style={{ color: 'var(--primary)', display: 'flex', alignItems: 'flex-start' }}>
+                      <Briefcase size={32} />
+                    </motion.div>
+                    <div>
+                      <h4 style={{ fontSize: '1.4rem', fontWeight: 600 }}>Junior Sales Associate
+</h4>
+                      <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', margin: '0.2rem 0 1rem 0' }}>Inspire Next Global Inc. Jan 26 to Present</p>
+                      <p style={{ color: 'var(--text-main)', fontSize: '1.05rem', lineHeight: 1.5 }}>
+                        [Pending Input...] and generated sales leads by sending targeted email campaigns. Effectively communicated product value to encourage adoption and support overall sales growth.
                       </p>
                     </div>
                   </motion.div>
