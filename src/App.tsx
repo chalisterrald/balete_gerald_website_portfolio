@@ -188,7 +188,7 @@ const App: React.FC = () => {
     }, 50); 
   }, [hoveredCarouselId]);
 
-  useAnimationFrame((_, delta) => {
+  useAnimationFrame((_time, delta) => {
     if (hoveredCarouselId === null) {
       let current = xOffset.get();
       // Move continuously from left to right (+x direction)
