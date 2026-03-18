@@ -382,17 +382,20 @@ const App: React.FC = () => {
                 initial={{ opacity: 0 }} 
                 animate={{ opacity: 1 }} 
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.3 }}
+                onClick={handleCloseModal} 
+                onMouseEnter={handleCloseModal} // Automatically close when mouse leaves modal area
                 style={{ 
                   position: 'fixed', 
                   top: 0, 
                   left: 0, 
                   right: 0, 
                   bottom: 0, 
-                  background: 'rgba(0,0,0,0.5)', 
-                  backdropFilter: 'blur(10px)', 
-                  zIndex: 0, // Behind the container and track, but covers screen visually
-                  pointerEvents: 'none' 
+                  background: 'rgba(0,0,0,0.4)', 
+                  backdropFilter: 'blur(8px)', 
+                  zIndex: -1, 
+                  pointerEvents: 'auto',
+                  cursor: 'default'
                 }}
               />
             )}
@@ -402,7 +405,7 @@ const App: React.FC = () => {
             <SectionHeader title="Featured Projects" subtitle="A showcase of enterprise-grade solutions and academic innovation." />
           </div>
 
-          <div style={{ position: 'relative', height: '650px', display: 'flex', alignItems: 'center', width: '100%', zIndex: 10, overflow: hoveredCarouselId ? 'visible' : 'hidden', perspective: '1000px' }}>
+          <div className="project-carousel-container" style={{ overflow: hoveredCarouselId ? 'visible' : 'hidden' }}>
             
             <motion.div
               style={{ 
@@ -423,10 +426,11 @@ const App: React.FC = () => {
                     initial={false}
                     animate={{ 
                       scale: isOtherHovered ? 0.95 : 1, 
-                      opacity: isHovered ? 0 : (isOtherHovered ? 0.3 : 1), // Hide original slot exactly when animating to center
-                      filter: isOtherHovered ? 'blur(6px)' : 'blur(0px)'
+                      opacity: isHovered ? 0 : (isOtherHovered ? 0.4 : 1), 
+                      filter: isOtherHovered ? 'blur(5px)' : 'blur(0px)'
                     }}
-                    transition={{ duration: 1.0, ease: [0.25, 1, 0.3, 1] }} 
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} 
+                    onClick={() => !isTransitioning && setHoveredCarouselId(project.carouselId)}
                     onMouseEnter={() => handleMouseEnterCard(project.carouselId)}
                     onMouseLeave={handleMouseLeaveCard}
                     className="apple-card-elevated project-card"
@@ -491,132 +495,99 @@ const App: React.FC = () => {
 
           {/* ACTIVE PORTAL MODAL */}
           <AnimatePresence>
-            {hoveredCarouselId && (() => {
-              const activeProject = carouselProjects.find(p => p.carouselId === hoveredCarouselId);
-              if (!activeProject) return null;
-
-              return (
-                <div 
-                  style={{ 
-                    position: 'fixed', 
-                    top: 0, left: 0, right: 0, bottom: 0, 
-                    zIndex: 2000, 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    pointerEvents: 'none' 
-                  }}
-                >
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
-                    transition={{ duration: 0.4, ease: [0.25, 1, 0.3, 1] }} 
-                    onMouseLeave={handleCloseModal}
-                    className="apple-card-elevated project-modal"
-                    style={{ 
-                      background: 'white', 
-                      overflow: 'hidden',
-                      border: '1px solid var(--border-soft)',
-                      borderRadius: '28px',
-                      boxShadow: '0 50px 100px rgba(0,0,0,0.5)',
-                      pointerEvents: 'auto',
-                      position: 'relative',
-                      maxHeight: 'min(90vh, 800px)',
-                      display: 'flex',
-                      flexDirection: isMobile ? 'column' : 'row'
-                    }}
-                  >
-                    {/* Close Button */}
-                    <button 
-                      onClick={handleCloseModal}
-                      style={{ 
-                        position: 'absolute',
-                        top: '1.2rem',
-                        right: '1.2rem',
-                        zIndex: 2010,
-                        background: 'rgba(255,255,255,0.9)',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(0,0,0,0.1)',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                        color: 'var(--text-main)',
-                        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'scale(1.1)';
-                        e.currentTarget.style.background = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'scale(1)';
-                        e.currentTarget.style.background = 'rgba(255,255,255,0.9)';
-                      }}
+            {hoveredCarouselId ? (
+              <div 
+                key="modal-portal"
+                style={{ 
+                  position: 'fixed', 
+                  top: 0, left: 0, right: 0, bottom: 0, 
+                  zIndex: 2000, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  pointerEvents: 'none' 
+                }}
+              >
+                {(() => {
+                  const activeProject = carouselProjects.find(p => p.carouselId === hoveredCarouselId);
+                  if (!activeProject) return null;
+                  return (
+                    <motion.div
+                      key={activeProject.carouselId}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} 
+                      onMouseLeave={handleCloseModal}
+                      className="project-modal"
                     >
-                      <X size={20} />
-                    </button>
-                    {/* Image Region Expanded */}
-                    <motion.div 
-                      className="project-modal-child"
-                      style={{ 
-                        position: 'relative', 
-                        background: '#000',
-                        overflow: 'hidden',
-                        flex: isMobile ? '0 0 250px' : '1'
-                      }}
-                    >
-                      <img 
-                        src={activeProject.image} 
-                        alt={activeProject.title} 
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                      />
-                      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.4))' }} />
-                    </motion.div>
-
-                    {/* Content Region Expanded */}
-                    <motion.div 
-                      className="project-modal-child"
-                      style={{ 
-                        padding: isMobile ? '2rem' : '3rem',
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        background: 'white',
-                        justifyContent: 'center',
-                        overflowY: 'auto',
-                        flex: '1'
-                      }}
-                    >
-                      <motion.h3 
-                        style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.4rem', color: 'var(--text-main)', letterSpacing: '-0.02em' }}
+                      {/* Close Button */}
+                      <button 
+                        onClick={handleCloseModal}
+                        aria-label="Close Project Modal"
+                        style={{ 
+                          position: 'absolute',
+                          top: '1.2rem',
+                          right: '1.2rem',
+                          zIndex: 2010,
+                          background: 'rgba(255,255,255,0.85)',
+                          backdropFilter: 'blur(10px)',
+                          border: '1px solid rgba(0,0,0,0.05)',
+                          borderRadius: '50%',
+                          width: '44px',
+                          height: '44px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                          color: 'var(--text-main)',
+                          transition: 'var(--transition-smooth)'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                       >
-                        {activeProject.title}
-                      </motion.h3>
-                      <motion.p style={{ fontSize: '1.1rem', color: 'var(--primary)', fontWeight: 700, marginBottom: '1rem' }}>
-                        {activeProject.subtitle}
-                      </motion.p>
-                      
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ delay: 0.15 }}
-                      >
-                        <p style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: 1.6, fontWeight: 500 }}>{activeProject.fullDesc}</p>
+                        <X size={24} />
+                      </button>
+                      {/* Image Region Expanded */}
+                      <div className="project-modal-image-container">
+                        <img 
+                          src={activeProject.image} 
+                          alt={activeProject.title} 
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                        />
+                        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.45))' }} />
+                      </div>
+
+                      {/* Content Region Expanded */}
+                      <div className="project-modal-content-container">
+                        <motion.h3 
+                          style={{ fontSize: 'clamp(1.5rem, 5vw, 2.2rem)', fontWeight: 800, marginBottom: '0.4rem', color: 'var(--text-main)', letterSpacing: '-0.02em', lineHeight: 1.15 }}
+                        >
+                          {activeProject.title}
+                        </motion.h3>
+                        <motion.p style={{ fontSize: '1.1rem', color: 'var(--primary)', fontWeight: 700, marginBottom: '1.5rem' }}>
+                          {activeProject.subtitle}
+                        </motion.p>
                         
-                        <div style={{ marginTop: '2.5rem', display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--primary)', fontWeight: 700, fontSize: '1rem' }}>
-                          EXPLORE CASE STUDY <ArrowRight size={20} />
-                        </div>
-                      </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ delay: 0.1, duration: 0.5 }}
+                        >
+                          <p style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 500 }}>{activeProject.fullDesc}</p>
+                          
+                          <div style={{ marginTop: '2.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--primary)', fontWeight: 700, fontSize: '1rem', cursor: 'pointer' }}>
+                            EXPLORE CASE STUDY <ArrowRight size={20} />
+                          </div>
+                        </motion.div>
+                      </div>
                     </motion.div>
-                  </motion.div>
-                </div>
-              );
-            })()}
+                  );
+                })()}
+              </div>
+            ) : null}
           </AnimatePresence>
         </section>
 
